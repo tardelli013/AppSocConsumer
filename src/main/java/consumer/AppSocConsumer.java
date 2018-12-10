@@ -10,15 +10,27 @@ public class AppSocConsumer {
         ObjectFactory objectFactory = new ObjectFactory();
         GetExamsRequest con = objectFactory.createGetExamsRequest();
 
-        //setar o ID do exame
+        //TODO informar aqui o ID do exame que deseja visualizar
         con.setId(1);
 
         ExamsPortService service = new ExamsPortService();
         ExamsPort soap = service.getExamsPortSoap11();
 
-        GetExamsResponse exams = soap.getExams(con);
+        try {
+            GetExamsResponse exams = soap.getExams(con);
+            System.out.println(
+                    "Id: " + exams.getExam().getExamId() +
+                    " - Exame: " + exams.getExam().getExamType() +
+                    " - Paciente: " + exams.getExam().getName() +
+                    " - idate: " + exams.getExam().getAge() +
+                    " - Sexo: " + exams.getExam().getGender() +
+                    " - Medico: " + exams.getExam().getCrmRequester() +
+                    " - Data: " + exams.getExam().getExaminationDate());
 
-        System.out.println(exams.getExam().getName());
+        } catch (Exception e) {
+            System.out.println("Id não encontrado");
+        }
+
     }
 
 }
